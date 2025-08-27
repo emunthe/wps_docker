@@ -44,23 +44,15 @@ services:
       WORDPRESS_DB_NAME: ${WP_DB_NAME:-wordpress}
       WORDPRESS_DB_USER: ${WP_DB_USER:-wordpress}
       WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD:-wordpress}
-      WORDPRESS_CONFIG_EXTRA: 'define(''WP_ENVIRONMENT_TYPE'', ''local'');
-
-        define(''WP_DEBUG'', true);
-
-        define(''WP_DEBUG_LOG'', true);
-
-        define(''WP_DEBUG_DISPLAY'', false);
-
-        define(''SCRIPT_DEBUG'', true);
-
-        define(''DOMAIN_CURRENT_SITE'', ''${WP_DOMAIN:-bandyforbundet.localhost}'');
-
-        define(''WP_HOME'',''https://${WP_DOMAIN:-bandyforbundet.localhost}'');
-
-        define(''WP_SITEURL'',''https://${WP_DOMAIN:-bandyforbundet.localhost}'');
-
-        '
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_ENVIRONMENT_TYPE', 'local');
+        define('WP_DEBUG', true);
+        define('WP_DEBUG_LOG', true);
+        define('WP_DEBUG_DISPLAY', false);
+        define('SCRIPT_DEBUG', true);
+        define('DOMAIN_CURRENT_SITE', '${WP_DOMAIN:-bandyforbundet.localhost}');
+        define('WP_HOME','https://${WP_DOMAIN:-bandyforbundet.localhost}');
+        define('WP_SITEURL','https://${WP_DOMAIN:-bandyforbundet.localhost}');
     volumes:
     - ./:/var/www
     depends_on:
