@@ -85,24 +85,18 @@ services:
   bandy-nginx:
     image: nginx:1.27-alpine
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.bandy.rule=Host(`bandyforbundet.espenmunthe.com`)
-      - traefik.http.routers.bandy.entrypoints=websecure
-      - traefik.http.routers.bandy.tls=true
-      - traefik.http.routers.bandy.tls.certresolver=le
-      - traefik.http.services.bandy.loadbalancer.server.port=80
+    - traefik.enable=true
+    - traefik.docker.network=web
+    - traefik.http.routers.bandy.entrypoints=websecure
+    - traefik.http.routers.bandy.tls=true
+    - traefik.http.services.bandy.loadbalancer.server.port=80
+    - traefik.http.routers.bandy.rule=Host(`bandyforbundet.espenmunthe.com`)
+    - traefik.http.routers.bandy.tls.certresolver=le
     container_name: bandy-nginx
     restart: unless-stopped
     volumes:
     - ./:/var/www
     - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-    labels:
-    - traefik.enable=true
-    - traefik.docker.network=web
-    - traefik.http.routers.bandy.rule=Host(`${WP_DOMAIN:-bandyforbundet.localhost}`)
-    - traefik.http.routers.bandy.entrypoints=websecure
-    - traefik.http.routers.bandy.tls=true
-    - traefik.http.services.bandy.loadbalancer.server.port=80
     depends_on:
     - bandy-fpm
     networks:

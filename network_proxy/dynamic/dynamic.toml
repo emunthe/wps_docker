@@ -1,22 +1,4 @@
 [http.middlewares]
-  # Correct key is redirectScheme (capital S)
   [http.middlewares.redirect-to-https.redirectScheme]
     scheme = "https"
     permanent = true
-
-[tls]
-  [[tls.certificates]]
-    certFile = "/certs/wildcard-localhost.pem"
-    keyFile  = "/certs/wildcard-localhost-key.pem"
-
-[tls.stores]
-  [tls.stores.default.defaultCertificate]
-    certFile = "/certs/wildcard-localhost.pem"
-    keyFile  = "/certs/wildcard-localhost-key.pem"
-
-# Secure dashboard/API exposure via router (optional; once this works you can remove --api.insecure flag)
-[http.routers.traefik]
-  rule = "Host(`traefik.localhost`)"
-  service = "api@internal"
-  entryPoints = ["websecure"]
-  tls = true

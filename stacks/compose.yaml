@@ -1,55 +1,49 @@
 name: docker-root
 networks:
-    web:
-        external: true
-        name: web
-    internal: {}
+  web:
+    external: true
+    name: web
+  internal: {}
 volumes:
-    db_data: {}
-    autonomi_data: {}
+  autonomi_data: {}
 services:
-    espenmunthe:
-        image: nginx:1.27-alpine
+  espenmunthe:
+    image: nginx:1.27-alpine
+    volumes:
+    - ./espenmunthe/public:/usr/share/nginx/html:ro
+    networks:
+    - web
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.espen.rule=Host(`espenmunthe.com`,`www.espenmunthe.com`)
-      - traefik.http.routers.espen.entrypoints=websecure
-      - traefik.http.routers.espen.tls=true
-      - traefik.http.routers.espen.tls.certresolver=le
-      - traefik.http.services.espen.loadbalancer.server.port=80
-        volumes:
-            - ./espenmunthe/public:/usr/share/nginx/html:ro
-        networks:
-            - web
-        labels:
-            - traefik.enable=true
-            - traefik.docker.network=web
-            - traefik.http.routers.espenmunthe.rule=Host(`espenmunthe.localhost`)
-            - traefik.http.routers.espenmunthe.entrypoints=websecure
-            - traefik.http.routers.espenmunthe.tls=true
-            - traefik.http.services.espenmunthe.loadbalancer.server.port=80
-        restart: unless-stopped
-        logging:
-            driver: local
-            options:
-                max-size: 10m
-                max-file: '3'
-    autonomi:
-        build:
-            context: ./autonomi
-            dockerfile: Dockerfile
-        network_mode: host
-        env_file: ./autonomi/.env
-        environment:
-            WALLET_ADDRESS: ${AUTONOMI_WALLET_ADDRESS}
-            NODE_COUNT: ${AUTONOMI_NODE_COUNT:-1}
-            DATA_DIR: /data
-            PORT_START: ${AUTONOMI_PORT_START:-61000}
-        volumes:
-            - autonomi_data:/data
-        restart: unless-stopped
-        logging:
-            driver: local
-            options:
-                max-size: 10m
-                max-file: '3'
+    - traefik.enable=true
+    - traefik.docker.network=web
+    - traefik.http.routers.espen.rule=Host(`espenmunthe.com`,`www.espenmunthe.com`)
+    - traefik.http.routers.espen.entrypoints=websecure
+    - traefik.http.routers.espen.tls=true
+    - traefik.http.routers.espen.tls.certresolver=le
+    - traefik.http.services.espen.loadbalancer.server.port=80
+    restart: unless-stopped
+    logging:
+      driver: local
+      options:
+        max-size: 10m
+        max-file: '3'
+  autonomi:
+    build:
+      context: ./autonomi
+      dockerfile: Dockerfile
+    env_file: ./autonomi/.env
+    environment:
+      WALLET_ADDRESS: ${AUTONOMI_WALLET_ADDRESS}
+      NODE_COUNT: ${AUTONOMI_NODE_COUNT:-1}
+      DATA_DIR: /data
+      PORT_START: ${AUTONOMI_PORT_START:-61000}
+    volumes:
+    - autonomi_data:/data
+    networks:
+    - internal
+    restart: unless-stopped
+    logging:
+      driver: local
+      options:
+        max-size: 10m
+        max-file: '3'

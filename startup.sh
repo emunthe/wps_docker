@@ -7,8 +7,8 @@ PROXY_COMPOSE="${PROJECT_ROOT}/network_proxy/compose.yaml"
 MAIN_COMPOSE="${PROJECT_ROOT}/stacks/compose.yaml"
 BANDY_COMPOSE="${PROJECT_ROOT}/stacks/bandyforbundet/compose.yaml"
 
-ESPEN_DOMAIN="${ESPEN_DOMAIN:-espenmunthe.localhost}"
-BANDY_DOMAIN="${BANDY_DOMAIN:-bandyforbundet.localhost}"
+ESPEN_DOMAIN="${ESPEN_DOMAIN:-espenmunthe.com}"
+BANDY_DOMAIN="${BANDY_DOMAIN:-bandyforbundet.espenmunthe.com}"
 
 KEEP_VOLUMES="${KEEP_VOLUMES:-0}"   # 0: remove volumes, 1: keep volumes
 
