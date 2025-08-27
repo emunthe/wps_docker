@@ -10,6 +10,13 @@ volumes:
 services:
     espenmunthe:
         image: nginx:1.27-alpine
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.espen.rule=Host(`espenmunthe.com`,`www.espenmunthe.com`)
+      - traefik.http.routers.espen.entrypoints=websecure
+      - traefik.http.routers.espen.tls=true
+      - traefik.http.routers.espen.tls.certresolver=le
+      - traefik.http.services.espen.loadbalancer.server.port=80
         volumes:
             - ./espenmunthe/public:/usr/share/nginx/html:ro
         networks:

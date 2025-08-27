@@ -1,31 +1,33 @@
 services:
-    traefik:
-        image: traefik:v3.1
-        container_name: traefik
-        command:
-            - --providers.docker=true
-            - --providers.docker.exposedbydefault=false
-            - --entrypoints.web.address=:80
-            - --entrypoints.web.http.redirections.entrypoint.to=websecure
-            - --entrypoints.web.http.redirections.entrypoint.scheme=https
-            - --entrypoints.websecure.address=:443
-            - --entrypoints.websecure.http.tls=true
-            - --api.dashboard=true
-            - --api.insecure=true # TEMP: expose dashboard on internal :8080 (mapped to 8081); remove once router in dynamic config verified
-            - --log.level=INFO
-            - --providers.file.directory=/dynamic
-            - --providers.file.watch=true
-        ports:
-            - 80:80
-            - 443:443
-            - 127.0.0.1:8081:8080
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock:ro
-            - ./certs:/certs:ro
-            - ./dynamic:/dynamic:ro
-        networks:
-            - web
+  traefik:
+    image: traefik:v3.1
+    container_name: traefik
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.websecure.http.tls=true
+      - --certificatesresolvers.le.acme.email=you@espenmunthe.com
+      - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.le.acme.httpchallenge=true
+      - --certificatesresolvers.le.acme.httpchallenge.entrypoint=web
+      - --log.level=INFO
+      - --providers.file.directory=/dynamic
+      - --providers.file.watch=true
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./dynamic:/dynamic:ro
+      - ./letsencrypt:/letsencrypt
+    networks:
+      - web
+
 networks:
-    web:
-        external: true
-        name: web
+  web:
+    external: true
+    name: web

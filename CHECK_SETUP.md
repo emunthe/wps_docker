@@ -61,3 +61,5 @@ restarting):
 curl -kI https://espenmunthe.localhost
 curl -kI https://bandyforbundet.localhost
 ```
+
+tar -czf WPS_DOCKER.tar.gz --exclude=".git" WPS_DOCKER/

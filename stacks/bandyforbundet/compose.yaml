@@ -84,6 +84,13 @@ services:
         max-file: '3'
   bandy-nginx:
     image: nginx:1.27-alpine
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.bandy.rule=Host(`bandyforbundet.espenmunthe.com`)
+      - traefik.http.routers.bandy.entrypoints=websecure
+      - traefik.http.routers.bandy.tls=true
+      - traefik.http.routers.bandy.tls.certresolver=le
+      - traefik.http.services.bandy.loadbalancer.server.port=80
     container_name: bandy-nginx
     restart: unless-stopped
     volumes:
