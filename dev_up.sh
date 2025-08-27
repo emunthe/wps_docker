@@ -13,6 +13,8 @@ fi
 
 echo "Using DEV_DOMAIN=${DEV_DOMAIN}"
 
+scripts/init-letsencrypt.sh
+
 # Bring up Traefik (HTTP only) + stacks with dev overrides
 docker compose -f network_proxy/compose.yaml -f network_proxy/compose.override.dev.yaml up -d
 docker compose -f stacks/compose.yaml -f stacks/compose.override.dev.yaml up -d espenmunthe
