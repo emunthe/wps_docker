@@ -61,6 +61,8 @@ compose_down "$BANDY_COMPOSE"
 compose_down "$MAIN_COMPOSE"
 compose_down "$PROXY_COMPOSE"
 
+"${PROJECT_ROOT}/scripts/init-letsencrypt.sh"
+
 echo ">> Bringing Traefik (proxy) UP"
 compose_up "$PROXY_COMPOSE"
 
