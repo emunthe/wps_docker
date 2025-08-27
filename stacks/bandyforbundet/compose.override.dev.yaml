@@ -1,0 +1,9 @@
+services:
+  bandy-nginx:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.bandy.entrypoints=web"
+      - "traefik.http.routers.bandy.rule=Host(`bandy.${DEV_DOMAIN}`)"
+      - "traefik.http.routers.bandy.tls="
+      - "traefik.http.services.bandy.loadbalancer.server.port=80"

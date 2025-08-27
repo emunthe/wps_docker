@@ -16,7 +16,7 @@ services:
     labels:
     - traefik.enable=true
     - traefik.docker.network=web
-    - traefik.http.routers.espen.rule=Host(`espenmunthe.com`,`www.espenmunthe.com`)
+    - traefik.http.routers.espen.rule=Host(`espenmunthe.com`) || Host(`www.espenmunthe.com`)
     - traefik.http.routers.espen.entrypoints=websecure
     - traefik.http.routers.espen.tls=true
     - traefik.http.routers.espen.tls.certresolver=le

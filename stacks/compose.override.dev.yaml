@@ -1,0 +1,9 @@
+services:
+  espenmunthe:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.espen.entrypoints=web"
+      - "traefik.http.routers.espen.rule=Host(`espenmunthe.${DEV_DOMAIN}`) || Host(`www.espenmunthe.${DEV_DOMAIN}`)"
+      - "traefik.http.routers.espen.tls="
+      - "traefik.http.services.espen.loadbalancer.server.port=80"

@@ -1,0 +1,10 @@
+services:
+  traefik:
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--api.insecure=true"     # http://<VM-IP>:8080/dashboard (dev only)
+    ports:
+      - "80:80"
+      - "8080:8080"
