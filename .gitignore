@@ -1,2 +1,5 @@
 /uploads
 /letsencrypt
+
+# Local Let's Encrypt data; recreate locally rather than commit
+network_proxy/letsencrypt/
